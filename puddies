@@ -1,0 +1,90 @@
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+public class PiggyBank {
+    private Map<Integer, Integer> moneyMap = new HashMap<>();
+
+    public Map<Integer, Integer> getMoneyMap() {
+        return moneyMap;
+    }
+
+    public void setMoneyMap(Map<Integer, Integer> moneyMap) {
+        this.moneyMap = moneyMap;
+    }
+
+    // Requirement 1: Calculate the total amount of money in the piggy bank
+    public double calculateMoneyAvailable() {
+        double sum = 0;
+        // Iterate over the moneyMap and add the product of denomination and count to the sum
+        for (Entry<Integer, Integer> entry : moneyMap.entrySet()) {
+            sum += entry.getKey() * entry.getValue();
+        }
+        // If the sum is zero, return -1
+        if (sum == 0) {
+            return -1;
+        }
+        // Otherwise, return the sum
+        return sum;
+    }
+
+    // Requirement 2: Retrieve the available denominations and return the sorted list of denominations
+    public List<Integer> retrieveCurrencyDenominations() {
+        List<Integer> denominations = new ArrayList<>();
+        // Iterate over the moneyMap and add the keys (denominations) to the list
+        for (Integer key : moneyMap.keySet()) {
+            denominations.add(key);
+        }
+        // Sort the list in ascending order
+        Collections.sort(denominations);
+        // Return the list
+        return denominations;
+    }
+
+    // Requirement 3: Calculate money based on the denomination and return the total value
+    public double calculateMoneyBasedOnDenomination(int denomination) {
+        // If the moneyMap contains the given denomination, return the product of denomination and count
+        if (moneyMap.containsKey(denomination)) {
+            return denomination * moneyMap.get(denomination);
+        }
+        // Otherwise, return -1
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        // Code template provided
+        Scanner sc = new Scanner(System.in);
+        PiggyBank piggyBank = new PiggyBank();
+        System.out.println("Enter the total number of money to added");
+        int n = sc.nextInt();
+        System.out.println("Enter your piggy bank entries (denomination: count)");
+        for (int i = 0; i < n; i++) {
+            int denomination = sc.nextInt();
+            int count = sc.nextInt();
+            piggyBank.getMoneyMap().put(denomination, count);
+        }
+        double moneyAvailable = piggyBank.calculateMoneyAvailable();
+        if (moneyAvailable == -1) {
+            System.out.println("No money available");
+        } else {
+            System.out.println("Total money in the Piggy bank: " + moneyAvailable);
+            System.out.println("Available Denominations: ");
+            for (Integer denomination : piggyBank.retrieveCurrencyDenominations()) {
+                System.out.println(denomination);
+            }
+            System.out.println("Enter the denomination");
+            int denomination = sc.nextInt();
+            double moneyBasedOnDenomination = piggyBank.calculateMoneyBasedOnDenomination(denomination);
+            if (moneyBasedOnDenomination == -1) {
+                System.out.println("Invalid denomination");
+            } else {
+                System.out.println("Total amount of the denomination " + denomination + " is " + moneyBasedOnDenomination);
+            }
+        }
+        sc.close();
+    }
+}
