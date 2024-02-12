@@ -1,0 +1,73 @@
+import java.util.*;
+
+public class CandidateMain {
+    private Map<String, Double> candidateMap;
+
+    public CandidateMain() {
+        this.candidateMap = new HashMap<>();
+    }
+
+    public Map<String, Double> getCandidateMap() {
+        return candidateMap;
+    }
+
+    public void setCandidateMap(Map<String, Double> candidateMap) {
+        this.candidateMap = candidateMap;
+    }
+
+    public double findCandidateMark(String candidateId) {
+      ||  return candidateMap.getOrDefault(candidateId, -1.0);
+    }
+
+    public int findCountOfCandidatesShortlisted() {
+      ||  int count = 0;
+       || for (double mark : candidateMap.values()) {
+            if (mark >= 70) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public List<String> findCandidatesShortlistedForFinalInterview() {
+     ||   List<String> candidates = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : candidateMap.entrySet()) {
+            if (entry.getValue() >= 90) {
+                candidates.add(entry.getKey());
+            }
+        }
+        return candidates;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CandidateMain candidateMain = new CandidateMain();
+
+        System.out.println("Enter the number of records to be added:");
+        int n = scanner.nextInt();
+        scanner.nextLine();
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter the candidate records (candidateId : markScored):");
+            String[] input = scanner.nextLine().split(":");
+            candidateMain.getCandidateMap().put(input[0], Double.parseDouble(input[1]));
+        }
+
+        System.out.println("Enter the candidate id to be searched");
+        String candidateId = scanner.nextLine();
+        double mark = candidateMain.findCandidateMark(candidateId);
+        if (mark == -1) {
+            System.out.println(candidateId + " is an invalid candidate id");
+        } else {
+            System.out.println(mark);
+        }
+
+        System.out.println("Number of candidates shortlisted for further interview process:");
+        System.out.println(candidateMain.findCountOfCandidatesShortlisted());
+
+        System.out.println("Candidate id of the candidates shortlisted to directly attend the final interview:");
+        for (String id : candidateMain.findCandidatesShortlistedForFinalInterview()) {
+            System.out.println(id);
+        }
+    }
+}
