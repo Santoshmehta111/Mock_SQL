@@ -1,0 +1,261 @@
+class MovieTickets {
+    // Attributes
+    private String movieName;
+    private String screenNumber;
+    private int noOfTickets;
+    private String mobileNumber;
+    private String time;
+    private String modeOfPayment;
+
+    // Getters and setters
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
+    }
+
+    public String getScreenNumber() {
+        return screenNumber;
+    }
+
+    public void setScreenNumber(String screenNumber) {
+        this.screenNumber = screenNumber;
+    }
+
+    public int getNoOfTickets() {
+        return noOfTickets;
+    }
+
+    public void setNoOfTickets(int noOfTickets) {
+        this.noOfTickets = noOfTickets;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getModeOfPayment() {
+        return modeOfPayment;
+    }
+
+    public void setModeOfPayment(String modeOfPayment) {
+        this.modeOfPayment = modeOfPayment;
+    }
+
+    // Six argument constructor
+    public MovieTickets(String movieName, String screenNumber, int noOfTickets, String mobileNumber, String time, String modeOfPayment) {
+        this.movieName = movieName;
+        this.screenNumber = screenNumber;
+        this.noOfTickets = noOfTickets;
+        this.mobileNumber = mobileNumber;
+        this.time = time;
+        this.modeOfPayment = modeOfPayment;
+    }
+
+    // Default constructor
+    public MovieTickets() {
+        // Do nothing
+    }
+
+    // Method to calculate the price of the ticket
+    public double calculatePrice() {
+        // Declare a variable to store the price
+        double price = 0;
+
+        // Declare a variable to store the convenience charge
+        double convenienceCharge = 0;
+
+        // Declare a variable to store the amount to be paid
+        double amount = 0;
+
+        // Check the validity of the screen number and the number of tickets
+        if (screenNumber != null && noOfTickets > 0) {
+            // Use a switch case to assign the price and convenience charge based on the screen number
+            switch (screenNumber) {
+                case "S1":
+                    price = 280;
+                    convenienceCharge = 35;
+                    break;
+                case "S2":
+                    price = 250;
+                    convenienceCharge = 35;
+                    break;
+                case "S3":
+                    price = 520;
+                    convenienceCharge = 35;
+                    break;
+                case "S4":
+                    price = 400;
+                    convenienceCharge = 35;
+                    break;
+                case "S5":
+                    price = 180;
+                    convenienceCharge = 0;
+                    break;
+                default:
+                    // Invalid screen number
+                    return 0;
+            }
+
+            // Calculate the amount to be paid
+            amount = noOfTickets * price + convenienceCharge;
+
+            // Return the amount
+            return amount;
+        } else {
+            // Invalid screen number or number of tickets
+            return 0;
+        }
+    }
+
+    // Method to generate the ticket ID
+   public String generateTicketId() {
+    // Declare a variable to store the ticket ID
+    String ticketId = "";
+
+    // Check the validity of the screen number and the number of tickets
+    if (screenNumber != null && (screenNumber.equals("S1") || screenNumber.equals("S2") || screenNumber.equals("S3") || screenNumber.equals("S4") || screenNumber.equals("S5")) && noOfTickets > 0) {
+        // Extract the first two consonants of the movie name
+        String consonants = "";
+        for (int i = 0; i < movieName.length(); i++) {
+            char ch = movieName.charAt(i);
+            if (ch != 'A' && ch != 'E' && ch != 'I' && ch != 'O' && ch != 'U' && ch != 'a' && ch != 'e' && ch != 'i' && ch != 'o' && ch != 'u') {
+                consonants += ch;
+            }
+            if (consonants.length() == 2) {
+                break;
+            }
+        }
+
+        // Concatenate the consonants, screen number, and number of tickets
+        ticketId = consonants + screenNumber + "N" + noOfTickets;
+
+        // Return the ticket ID
+        return ticketId;
+    } else {
+        // Invalid screen number or number of tickets
+        return "Invalid movie details";
+    }
+}
+}
+
+
+
+
+// UserInterface class to interact with the user
+class UserInterface {
+    // Method to extract the details of the movie ticket from a string
+    public static MovieTickets extractDetails(String movieDetails) {
+        // Declare an array to store the details
+        String[] details = new String[6];
+
+        // Split the movieDetails string by colon
+        details = movieDetails.split(":");
+
+        // Create a MovieTickets object with the details
+        MovieTickets ticket = new MovieTickets(details[0], details[1], Integer.parseInt(details[2]), details[3], details[4], details[5]);
+
+        // Return the ticket object
+        return ticket;
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        // Create a Scanner object for user input
+        Scanner input = new Scanner(System.in);
+
+        // Declare a variable to store the user's choice
+        int choice = 1;
+
+        // Use a while loop to repeat the booking process
+        while (choice == 1) {
+            // Welcome the user and ask for their name
+            System.out.println("Welcome to Crazy Cinema!");
+            System.out.println("What is your name?");
+            String name = input.nextLine();
+
+            // Display the seating plan
+            System.out.printf("Welcome %s! Please have a look at the seating plan.\n\n", name);
+            for (int i = 1; i <= 34; i++) {
+                System.out.print("*");
+            }
+            System.out.println();
+            System.out.println("CINEMA 1 SEATING PLAN");
+            for (int j = 1; j <= 34; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+            for (int seat = 0; seat < 30; seat++) {
+                System.out.printf(seat + "\t");
+                if (seat == 4 || seat == 9 || seat == 14 || seat == 19 || seat == 24 || seat == 29) {
+                    System.out.println();
+                }
+            }
+            for (int k = 1; k <= 34; k++) {
+                System.out.print("*");
+            }
+            System.out.println();
+
+            // Ask the user to enter the details of the movie ticket
+            System.out.println("Enter the details in the format: MovieName:ScreenNumber:NumberOfTickets:MobileNumber:Time:ModeOfPayment");
+            String movieDetails = input.nextLine();
+
+            // Extract the details and create a MovieTickets object
+            MovieTickets ticket = extractDetails(movieDetails);
+
+            // Display the ticket details
+            System.out.println("Ticket Details");
+            System.out.println("Movie Name: " + ticket.getMovieName());
+            System.out.println("Screen Number: " + ticket.getScreenNumber());
+            System.out.println("Number of tickets: " + ticket.getNoOfTickets());
+            System.out.println("Show Timing: " + ticket.getTime());
+            System.out.println("Ticket Cost: " + ticket.calculatePrice());
+            System.out.println("Ticket ID: " + ticket.generateTicketId());
+
+            // Thank the user and confirm the payment and booking
+            System.out.println("Thank you! Your payment received via " + ticket.getModeOfPayment() + ", Your movie tickets are confirmed.");
+
+            // Ask the user if they want to make another booking
+            System.out.println("Would you like to make another booking? (Type 1 = Yes; Type 2 = No)");
+            choice = input.nextInt();
+
+            // Consume the newline character
+            input.nextLine();
+
+            // If the user chooses 2, exit the loop and thank the user
+            if (choice == 2) {
+                System.out.println("Thank you for using this program.");
+                break;
+            }
+
+            // If the user enters an invalid choice, ask them to try again
+            while (choice != 1 && choice != 2) {
+                System.out.println("Invalid input.");
+                System.out.println("Type 1 = Continue booking; Type 2 = Exit the program");
+                choice = input.nextInt();
+                input.nextLine();
+                if (choice == 2) {
+                    System.out.println("Thank you for using this program.");
+                    break;
+                }
+            }
+        }
+
+        // Close the scanner object
+        input.close();
+    }
+}
